@@ -1,0 +1,54 @@
+{
+  "name": "swader/diffbot-php-client",
+  "description": "A PHP wrapper for using Diffbot's API",
+  "keywords": [
+    "diffbot",
+    "api",
+    "wrapper",
+    "client"
+  ],
+  "homepage": "https://github.com/swader/diffbot-php-client",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Bruno Skvorc",
+      "email": "bruno@skvorc.me",
+      "homepage": "http://bitfalls.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^5.6|7.*",
+    "php-http/client-implementation": "^1.0",
+    "php-http/client-common": "^1",
+    "php-http/discovery": "^1",
+    "php-http/message": "^1.0"
+  },
+  "require-dev": {
+    "symfony/var-dumper": "^3",
+    "phpunit/phpunit": "^5",
+    "php-http/guzzle6-adapter": "^1",
+    "scrutinizer/ocular": "^1.1",
+    "nesbot/carbon": "^1.21"
+  },
+  "autoload": {
+    "psr-4": {
+      "Swader\\Diffbot\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Swader\\Diffbot\\Test\\": "tests/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "2.1-dev"
+    }
+  },
+  "suggest": {
+    "nesbot/carbon": "Turns the date and estimatedDate return values of Article and Post entity into Carbon entities."
+  },
+  "prefer-stable": true,
+  "minimum-stability": "dev"
+}

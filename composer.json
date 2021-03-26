@@ -1,0 +1,11 @@
+{
+    "require": {
+        "guzzlehttp/guzzle": "^7.2",
+        "symfony/dom-crawler": "^5.1",
+        "fabpot/goutte": "^4.0",
+        "sunra/php-simple-html-dom-parser": "^1.5",
+        "swader/diffbot-php-client": "^2.0",
+        "elboletaire/crawler": "dev-master",
+        "murat-yuksel/news-api-php": "^1.0"
+    }
+}
