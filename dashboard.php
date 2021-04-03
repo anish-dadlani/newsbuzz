@@ -67,14 +67,15 @@ else
                     </div>
                     <!-- end row -->
                     <div class="row">
-                        <a href="manage-categories.php">
+                        <a href="manage-post.php">
                             <div class="col-lg-4 col-md-4 col-sm-6">
                                 <div class="card-box widget-box-one">
                                     <i class="mdi mdi-chart-areaspline widget-one-icon"></i>
                                     <div class="wigdet-one-content">
                                         <p class="m-0 text-uppercase font-600 font-secondary text-overflow"
-                                            title="Statistics">Categories Listed</p>
-                                        <?php $query=mysqli_query($con,"select * from tblcategory where Is_Active=1");
+                                            title="Statistics">Posts Created</p>
+                                        <?php $id=$_SESSION['user_id']; $username=$_SESSION['login'];
+                                        $query=mysqli_query($con,"select * from tblposts where Is_Active=1 AND created_by='$id' and created_by_user='$username'");
                                                     $countcat=mysqli_num_rows($query); ?>
                                         <h2><?php echo htmlentities($countcat);?> <small></small></h2>
                                     </div>

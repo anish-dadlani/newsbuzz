@@ -1,8 +1,7 @@
 <?php 
   session_start(); 
   error_reporting(0);
-  include('includes/config.php'); 
-  include('simple_html_dom.php');
+  include('includes/config.php');
   // header("Content-Type: application/json");
 ?>
 <!DOCTYPE html>

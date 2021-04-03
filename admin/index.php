@@ -19,6 +19,7 @@ if(isset($_POST['login']))
         //verifying Password
         if ($password == $hashpassword) {
 			$_SESSION['login']=$_POST['username'];
+            // if($_SESSION['login'] == 'admin')
 			echo "<script type='text/javascript'> document.location = 'dashboard.php'; </script>";
         }
         else 

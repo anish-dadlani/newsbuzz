@@ -10,7 +10,7 @@ if(isset($_POST['login']))
     $uname=$_POST['username'];
     $password=$_POST['password'];
     // Fetch data from database on the basis of username/email and password
-    $sql =mysqli_query($con,"SELECT username,password FROM users WHERE (username='$uname')");
+    $sql =mysqli_query($con,"SELECT id,username,password FROM users WHERE (username='$uname')");
     $num=mysqli_fetch_array($sql);
 	
     if($num>0)
@@ -19,6 +19,7 @@ if(isset($_POST['login']))
         //verifying Password
         if ($password == $hashpassword) {
 			$_SESSION['login']=$_POST['username'];
+            $_SESSION['user_id']=$num['id'];
 			echo "<script type='text/javascript'> document.location = 'dashboard.php'; </script>";
         }
         else 

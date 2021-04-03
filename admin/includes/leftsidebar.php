@@ -45,6 +45,7 @@
                     <ul class="list-unstyled">
                         <li><a href="add-post.php">Add Posts</a></li>
                         <li><a href="manage-posts.php">Manage Posts</a></li>
+                        <li><a href="unapprove-post.php">Waiting for Approval </a></li>
                         <li><a href="trash-posts.php">Trash Posts</a></li>
                     </ul>
                 </li>  
@@ -55,7 +56,7 @@
                         <li><a href="unapprove-comment.php">Waiting for Approval </a></li>
                         <li><a href="manage-comments.php">Approved Comments</a></li>
                     </ul>
-                </li>   
+                </li>
             </ul>
         </div> <!-- Sidebar -->
         <div class="clearfix"></div>

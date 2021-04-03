@@ -76,6 +76,7 @@ else
         <div id="wrapper">
            <!-- Top Bar Start --> <?php include('includes/topheader.php');?>
            <!-- ========== Left Sidebar Start ========== -->
+           <?php //print_r($_SESSION);exit; ?>
            <?php include('includes/leftsidebar.php');?> <!-- Left Sidebar End -->
            <!-- ============================================================== -->
            <!-- Start right Content here -->

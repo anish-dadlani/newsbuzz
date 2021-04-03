@@ -9,30 +9,30 @@ else
     if( $_GET['disid'])
     {
         $id=intval($_GET['disid']);
-        $query=mysqli_query($con,"update tblcomments set status='0' where id='$id'");
-        $msg="Comment unapprove ";
+        $query=mysqli_query($con,"update tblposts set Is_Active='0' where id='$id'");
+        $msg="Post unapprove ";
     }
     // Code for restore
     if($_GET['appid'])
     {
         $id=intval($_GET['appid']);
-        $query=mysqli_query($con,"update tblcomments set status='1' where id='$id'");
-        $msg="Comment approved";
+        $query=mysqli_query($con,"update tblposts set Is_Active='1' where id='$id'");
+        $msg="Post approved";
     }
 
     // Code for deletion
     if($_GET['action']=='del' && $_GET['rid'])
     {
         $id=intval($_GET['rid']);
-        $query=mysqli_query($con,"delete from  tblcomments  where id='$id'");
-        $delmsg="Comment deleted forever";
+        $query=mysqli_query($con,"delete from  tblposts  where id='$id'");
+        $delmsg="Post deleted forever";
     }
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>NewsBuzz | Manage Categories</title>
+        <title>NewsBuzz | Manage Post</title>
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/core.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/components.css" rel="stylesheet" type="text/css" />
@@ -61,11 +61,11 @@ else
                         <div class="row">
 							<div class="col-xs-12">
 								<div class="page-title-box">
-                                    <h4 class="page-title">Manage Unapproved Comments</h4>
+                                    <h4 class="page-title">Manage Unapproved Posts</h4>
                                     <ol class="breadcrumb p-0 m-0">
                                         <li> <a href="#">Admin</a> </li>
-                                        <li> <a href="#">Comments </a> </li>
-                                        <li class="active"> Unapprove Comments </li>
+                                        <li> <a href="#">Posts </a> </li>
+                                        <li class="active"> Unapprove Posts </li>
                                     </ol>
                                     <div class="clearfix"></div>
                                 </div>
@@ -92,9 +92,9 @@ else
                                                     <thead>
                                                         <tr>
                                                             <th>#</th>
-                                                            <th> Name</th>
-                                                            <th>Email Id</th>
-                                                            <th width="300">Comment</th>
+                                                            <th>PostTitle</th>
+                                                            <th width="300">PostDetails</th>
+                                                            <th>PostingDate</th>
                                                             <th>Status</th>
                                                             <th>Post / News</th>
                                                             <th>Posting Date</th>
@@ -103,30 +103,30 @@ else
                                                     </thead>
                                                     <tbody>
                                                     <?php 
-                                                        $query=mysqli_query($con,"Select tblcomments.id,  tblcomments.name,tblcomments.email,tblcomments.postingDate,tblcomments.comment,tblposts.id as postid,tblposts.PostTitle from  tblcomments join tblposts on tblposts.id=tblcomments.postId where tblcomments.status=0");
+                                                        $query=mysqli_query($con,"Select id,PostTitle,PostDetails,PostingDate,Is_Active from tblposts where Is_Active=0");
                                                         $cnt=1;
                                                         while($row=mysqli_fetch_array($query)){ ?>
                                                             <tr>
                                                                 <th scope="row"><?php echo htmlentities($cnt);?></th>
-                                                                <td><?php echo htmlentities($row['name']);?></td>
-                                                                <td><?php echo htmlentities($row['email']);?></td>
-                                                                <td><?php echo htmlentities($row['comment']);?></td>
-                                                                <td><?php $st=$row['status'];
+                                                                <td><?php echo htmlentities($row['PostTitle']);?></td>
+                                                                <td><?php echo htmlentities($row['PostDetails']);?></td>
+                                                                <td><?php echo htmlentities($row['PostingDate']);?></td>
+                                                                <td><?php $st=$row['Is_Active'];
                                                                     if($st=='0'):
                                                                         echo "Wating for approval";
                                                                     else:
                                                                         echo "Approved";
                                                                     endif;
                                                                     ?> </td>
-                                                                <td><a href="edit-post.php?pid=<?php echo htmlentities($row['postid']);?>"><?php echo htmlentities($row['PostTitle']);?></a> </td>
-                                                                <td><?php echo htmlentities($row['postingDate']);?></td>
+                                                                <td><a href="edit-post.php?pid=<?php echo htmlentities($row['id']);?>"><?php echo htmlentities($row['PostTitle']);?></a> </td>
+                                                                <td><?php echo htmlentities($row['PostingDate']);?></td>
                                                                 <td>
-                                                                <?php if($st=='0'):?>
-                                                                    <a href="unapprove-comment.php?disid=<?php echo htmlentities($row['id']);?>" title="Disapprove this comment"><i class="ion-arrow-return-right" style="color: #29b6f6;"></i></a> 
+                                                                <?php if($st=='1'):?>
+                                                                    <a href="unapprove-post.php?disid=<?php echo htmlentities($row['id']);?>" title="Disapprove this Post"><i class="ion-arrow-return-right" style="color: #29b6f6;"></i></a> 
                                                                 <?php else :?>
-                                                                    <a href="unapprove-comment.php?appid=<?php echo htmlentities($row['id']);?>" title="Approve this comment"><i class="ion-arrow-return-right" style="color: #29b6f6;"></i></a> 
+                                                                    <a href="unapprove-post.php?appid=<?php echo htmlentities($row['id']);?>" title="Approve this Post"><i class="ion-arrow-return-right" style="color: #29b6f6;"></i></a> 
                                                                 <?php endif;?>
-                                                                    &nbsp;<a href="unapprove-comment.php?rid=<?php echo htmlentities($row['id']);?>&&action=del"> <i class="fa fa-trash-o" style="color: #f05050"></i></a> </td>
+                                                                    &nbsp;<a href="unapprove-post.php?rid=<?php echo htmlentities($row['id']);?>&&action=del"> <i class="fa fa-trash-o" style="color: #f05050"></i></a> </td>
                                                             </tr>
                                                                 <?php $cnt++;
                                                         } ?>

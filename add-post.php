@@ -28,10 +28,10 @@ else
             //rename the image file
             $imgnewfile=md5($imgfile).$extension;
             // Code for move image into directory
-            move_uploaded_file($_FILES["postimage"]["tmp_name"],"postimages/".$imgnewfile);
+            move_uploaded_file($_FILES["postimage"]["tmp_name"],"admin/postimages/".$imgnewfile);
             $id=$_SESSION['user_id']; 
             $username=$_SESSION['login'];
-            $status=1;
+            $status=0;
             $query=mysqli_query($con,"insert into tblposts(PostTitle,created_by,created_by_user,CategoryId,SubCategoryId,PostDetails,PostUrl,Is_Active,PostImage) values('$posttitle','$id','$username','$catid','$subcatid','$postdetails','$url','$status','$imgnewfile')");
         if($query)
             $msg="Post successfully added ";
@@ -48,31 +48,31 @@ else
         <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
         <meta name="author" content="Coderthemes">
         <!-- App favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico">
+        <link rel="shortcut icon" href="admin/assets/images/favicon.ico">
         <!-- App title -->
         <title>NewsBuzz | Add Post</title>
         <!-- Summernote css -->
-        <link href="../plugins/summernote/summernote.css" rel="stylesheet" />
+        <link href="./plugins/summernote/summernote.css" rel="stylesheet" />
         <!-- Select2 -->
-        <link href="../plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+        <link href="./plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
         <!-- Jquery filer css -->
-        <link href="../plugins/jquery.filer/css/jquery.filer.css" rel="stylesheet" />
-        <link href="../plugins/jquery.filer/css/themes/jquery.filer-dragdropbox-theme.css" rel="stylesheet" />
+        <link href="./plugins/jquery.filer/css/jquery.filer.css" rel="stylesheet" />
+        <link href="./plugins/jquery.filer/css/themes/jquery.filer-dragdropbox-theme.css" rel="stylesheet" />
         <!-- App css -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/css/core.css" rel="stylesheet" type="text/css" />
-        <link href="assets/css/components.css" rel="stylesheet" type="text/css" />
-        <link href="assets/css/icons.css" rel="stylesheet" type="text/css" />
-        <link href="assets/css/pages.css" rel="stylesheet" type="text/css" />
-        <link href="assets/css/menu.css" rel="stylesheet" type="text/css" />
-        <link href="assets/css/responsive.css" rel="stylesheet" type="text/css" />
-		<link rel="stylesheet" href="../plugins/switchery/switchery.min.css">
-        <script src="assets/js/modernizr.min.js"></script>
+        <link href="admin/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="admin/assets/css/core.css" rel="stylesheet" type="text/css" />
+        <link href="admin/assets/css/components.css" rel="stylesheet" type="text/css" />
+        <link href="admin/assets/css/icons.css" rel="stylesheet" type="text/css" />
+        <link href="admin/assets/css/pages.css" rel="stylesheet" type="text/css" />
+        <link href="admin/assets/css/menu.css" rel="stylesheet" type="text/css" />
+        <link href="admin/assets/css/responsive.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="./plugins/switchery/switchery.min.css">
+        <script src="admin/assets/js/modernizr.min.js"></script>
         <script>
         function getSubCat(val) {
         $.ajax({
             type: "POST",
-            url: "get_subcategory.php",
+            url: "admin/get_subcategory.php",
             data:'catid='+val,
             success: function(data){
                 $("#subcategory").html(data);
@@ -84,9 +84,9 @@ else
     <body class="fixed-left">  <!-- Begin page -->
         <div id="wrapper">
             <!-- Top Bar Start -->
-            <?php include('includes/topheader.php');?>
+            <?php include('includes/includes/topheader.php');?>
             <!-- ========== Left Sidebar Start ========== -->
-            <?php include('includes/leftsidebar.php');?>
+            <?php include('includes/includes/leftsidebar.php');?>
             <!-- Left Sidebar End -->
             <!-- ============================================================== -->
             <!-- Start right Content here -->
@@ -177,7 +177,7 @@ else
                         <!-- end row -->
                     </div> <!-- container -->
                 </div> <!-- content -->
-           <?php include('includes/footer.php');?>
+           <?php include('includes/includes/footer.php');?>
             </div>
             <!-- ============================================================== -->
             <!-- End Right content here -->
@@ -188,26 +188,26 @@ else
             var resizefunc = [];
         </script>
         <!-- jQuery  -->
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-        <script src="assets/js/detect.js"></script>
-        <script src="assets/js/fastclick.js"></script>
-        <script src="assets/js/jquery.blockUI.js"></script>
-        <script src="assets/js/waves.js"></script>
-        <script src="assets/js/jquery.slimscroll.js"></script>
-        <script src="assets/js/jquery.scrollTo.min.js"></script>
-        <script src="../plugins/switchery/switchery.min.js"></script>
+        <script src="admin/assets/js/jquery.min.js"></script>
+        <script src="admin/assets/js/bootstrap.min.js"></script>
+        <script src="admin/assets/js/detect.js"></script>
+        <script src="admin/assets/js/fastclick.js"></script>
+        <script src="admin/assets/js/jquery.blockUI.js"></script>
+        <script src="admin/assets/js/waves.js"></script>
+        <script src="admin/assets/js/jquery.slimscroll.js"></script>
+        <script src="admin/assets/js/jquery.scrollTo.min.js"></script>
+        <script src="./plugins/switchery/switchery.min.js"></script>
         <!--Summernote js-->
-        <script src="../plugins/summernote/summernote.min.js"></script>
+        <script src="./plugins/summernote/summernote.min.js"></script>
         <!-- Select 2 -->
-        <script src="../plugins/select2/js/select2.min.js"></script>
+        <script src="./plugins/select2/js/select2.min.js"></script>
         <!-- Jquery filer js -->
-        <script src="../plugins/jquery.filer/js/jquery.filer.min.js"></script>
+        <script src="./plugins/jquery.filer/js/jquery.filer.min.js"></script>
         <!-- page specific js -->
-        <script src="assets/pages/jquery.blog-add.init.js"></script>
+        <script src="admin/assets/pages/jquery.blog-add.init.js"></script>
         <!-- App js -->
-        <script src="assets/js/jquery.core.js"></script>
-        <script src="assets/js/jquery.app.js"></script>
+        <script src="admin/assets/js/jquery.core.js"></script>
+        <script src="admin/assets/js/jquery.app.js"></script>
         <script>
             jQuery(document).ready(function(){
                 $('.summernote').summernote({
@@ -223,9 +223,9 @@ else
                 });
             });
         </script>
-        <script src="../plugins/switchery/switchery.min.js"></script>
+        <script src="./plugins/switchery/switchery.min.js"></script>
         <!--Summernote js-->
-        <script src="../plugins/summernote/summernote.min.js"></script>
+        <script src="./plugins/summernote/summernote.min.js"></script>
     </body>
 </html>
 <?php } ?>
