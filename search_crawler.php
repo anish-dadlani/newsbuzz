@@ -111,7 +111,7 @@
                     <div class="card-body">
                         <form name="search" action="search_crawler.php" method="post">
                             <div class="input-group">
-                                <input type="text" name="searchtitle" class="form-control" placeholder="Search for..."
+                                <input type="text" id="searchtitle" name="searchtitle" class="form-control" placeholder="Search for..."
                                     required>
                                 <span class="input-group-btn"> <button class="btn btn-secondary" name="searchBtn"
                                         id="searchBtn" type="submit">Search</button> </span>
@@ -139,7 +139,7 @@
                     <option value=""> ---Select Category--- </option>
                     <?php
                     // Feching active categories
-                    $ret=mysqli_query($con,"select id, CategoryName from tblcategory where Is_Active=1");
+                    $ret=mysqli_query($con,"select id, CategoryName from tblcategory where Is_Active=1 order by CategoryName asc");
                     while($result=mysqli_fetch_array($ret)) { ?>
                     <option value="<?php echo htmlentities($result['CategoryName']);?>">
                         <?php echo htmlentities($result['CategoryName']);?></option>
@@ -166,14 +166,23 @@
           
           if(isset($_REQUEST['filterBtn']))
           {
-            if($_REQUEST['category'] != "")
+			// if($_REQUEST['category'] != "" && $_REQUEST['source'] != "")
+			// {
+				// $url = 'https://newsapi.org/v2/top-headlines?sources='.$_REQUEST['source'].'&category='.$_REQUEST['category'] .'&apiKey='.$api_key;
+			// }
+            // else 
+			if($_REQUEST['category'] != "")
             {
-              $url = 'https://newsapi.org/v2/top-headlines?country=us&category='.$_REQUEST['category'] .'&apiKey='.$api_key;
+				$array = ['Business','Entertainment','General','Health','Science','Sports','Technology'];
+				if(in_array($_REQUEST['category'],$array)){
+					$url = 'https://newsapi.org/v2/top-headlines?country=us&category='.strtolower($_REQUEST['category']) .'&apiKey='.$api_key;
+				}
             }
             else if ($_REQUEST['source'] != "")
             {
               $url = 'https://newsapi.org/v2/top-headlines?sources='.$_REQUEST['source'].'&apiKey='.$api_key;
-            }
+            }			
+			// print_r($url);exit;
             // else if ($_REQUEST['domain'] != "")
             // {
             //   $url = 'http://newsapi.org/v2/everything?domains='.$_REQUEST['domain'].'&apiKey='.$api_key;
@@ -184,6 +193,7 @@
           //everything
           $response = file_get_contents($url);
           $newsData = json_decode($response);
+		  // print_r($url);print_r($newsData);exit;
 
           //headlines
           $response_headline = file_get_contents($url_headline);
@@ -242,10 +252,219 @@
 
 $('#source').on('change', function() {
     var source = $(this).val();
-    if (source == 'jang.com.pk' || source == 'dawn.com') {
+    if (source == 'jang.com.pk' || source == 'dawn.com' || source == 'urdupoint.com' 
+	|| source == 'en.dailypakistan.com.pk' || source  == 'nation.com.pk'
+	|| source == 'profit.pakistantoday.com.pk' || source == 'timesofislamabad.com' 
+	|| source == 'inform.kz' || source == 'aninews.in' || source == 'thenews.com.pk') {
         var params = {
             "query": "{\"$query\":{\"$and\":[{\"locationUri\":\"http://en.wikipedia.org/wiki/Pakistan\"},{\"sourceUri\":\"" +
                 source + "\"}]}}",
+            "dataType": [
+                "news"
+            ],
+            "resultType": "articles",
+            "articlesSortBy": "date",
+            "articlesCount": 10,
+            "articleBodyLen": -1,
+            "apiKey": "0cd53df4-fdf8-4132-a211-6c646d60ba85"
+        };
+        $.ajax({
+            url: "https://newsapi.ai/api/v1/article/getArticles",
+            crossDomain: true,
+            data: params,
+            method: 'GET',
+        }).done(function(result) {
+            console.log(result);
+            $.ajax({
+                url: 'ajax_calls.php',
+                data: result,
+                method: 'POST',
+                success: function(data) {
+                    // console.log(data);
+                    $('.container-fluid').html(data);
+                }
+            })
+        }).fail(function(err) {
+            console.error(err.statusText);
+        });
+    } else if (source == 'news.bbc.co.uk' || source == 'businessinsider.com'
+	|| source == 'engadget.com' || source == 'thenextweb.com' || source == 'usatoday.com' 
+	|| source == 'techcrunch.com' || source == 'timesofindia.indiatimes' || source == 'express.pk'){
+		var params = {
+            "query": "{\"$query\":{\"$and\":[{\"sourceUri\":\"" +source + "\"}]}}",
+            "dataType": [
+                "news"
+            ],
+            "resultType": "articles",
+            "articlesSortBy": "date",
+            "articlesCount": 10,
+            "articleBodyLen": -1,
+            "apiKey": "0cd53df4-fdf8-4132-a211-6c646d60ba85"
+        };
+        $.ajax({
+            url: "https://newsapi.ai/api/v1/article/getArticles",
+            crossDomain: true,
+            data: params,
+            method: 'GET',
+        }).done(function(result) {
+            console.log(result);
+            $.ajax({
+                url: 'ajax_calls.php',
+                data: result,
+                method: 'POST',
+                success: function(data) {
+                    // console.log(data);
+                    $('.container-fluid').html(data);
+                }
+            })
+        }).fail(function(err) {
+            console.error(err.statusText);
+        });
+	}
+});
+
+$('#searchtitle').on('keyup', function() {
+    var search = $(this).val();
+    var source = $('#source').val();
+    var category = $('#category').val();
+	if(source != '' && category != ''){
+		var params = {
+			"query": "{\"$query\":{\"$and\":[{\"keyword\":\""+search+"\",\"keywordLoc\":\"body\"},{\"categoryUri\":\"dmoz/"+category+"\"},{\"sourceUri\":\""+source+"\"}]},\"$filter\":{\"forceMaxDataTimeWindow\":\"31\"}}",
+			"dataType": [
+				"news"
+			],
+			"resultType": "articles",
+			"articlesSortBy": "date",
+			"articlesCount": 10,
+			"articleBodyLen": -1,
+			"apiKey": "0cd53df4-fdf8-4132-a211-6c646d60ba85"
+		};
+		$.ajax({
+			url: "https://newsapi.ai/api/v1/article/getArticles",
+			crossDomain: true,
+			data: params,
+			method: 'GET',
+		}).done(function(result) {
+			// console.log(result);
+			$.ajax({
+				url: 'ajax_calls.php',
+				data: result,
+				method: 'POST',
+				success: function(data) {
+					// console.log(data);
+					$('.container-fluid').html(data);
+				}
+			})
+		}).fail(function(err) {
+			console.error(err.statusText);
+		});
+	}else{
+		var params = {
+			"query": "{\"$query\":{\"$and\":[{\"keyword\":\""+search+"\",\"keywordLoc\":\"body\"},{\"locationUri\":\"http://en.wikipedia.org/wiki/Pakistan\"}]},\"$filter\":{\"forceMaxDataTimeWindow\":\"31\"}}",
+			"dataType": [
+				"news"
+			],
+			"resultType": "articles",
+			"articlesSortBy": "date",
+			"articlesCount": 10,
+			"articleBodyLen": -1,
+			"apiKey": "0cd53df4-fdf8-4132-a211-6c646d60ba85"
+		};
+		$.ajax({
+			url: "https://newsapi.ai/api/v1/article/getArticles",
+			crossDomain: true,
+			data: params,
+			method: 'GET',
+		}).done(function(result) {
+			// console.log(result);
+			$.ajax({
+				url: 'ajax_calls.php',
+				data: result,
+				method: 'POST',
+				success: function(data) {
+					// console.log(data);
+					$('.container-fluid').html(data);
+				}
+			})
+		}).fail(function(err) {
+			console.error(err.statusText);
+		});
+	}
+});
+
+$('#category').on('change', function() {
+    var source = $('#source').val();
+    var category = $(this).val();
+    if (source == 'jang.com.pk' || source == 'dawn.com' || source == 'urdupoint.com' 
+	|| source == 'en.dailypakistan.com.pk' || source  == 'nation.com.pk'
+	|| source == 'profit.pakistantoday.com.pk' || source == 'timesofislamabad.com' 
+	|| source == 'inform.kz' || source == 'aninews.in' || source == 'thenews.com.pk') {
+        var params = {
+            "query": "{\"$query\":{\"$and\":[{\"locationUri\":\"http://en.wikipedia.org/wiki/Pakistan\"},{\"categoryUri\":\"dmoz/"+category+"\"},{\"sourceUri\":\"" +source + "\"}]}}",
+            "dataType": [
+                "news"
+            ],
+            "resultType": "articles",
+            "articlesSortBy": "date",
+            "articlesCount": 10,
+            "articleBodyLen": -1,
+            "apiKey": "0cd53df4-fdf8-4132-a211-6c646d60ba85"
+        };
+        $.ajax({
+            url: "https://newsapi.ai/api/v1/article/getArticles",
+            crossDomain: true,
+            data: params,
+            method: 'GET',
+        }).done(function(result) {
+            // console.log(result);
+            $.ajax({
+                url: 'ajax_calls.php',
+                data: result,
+                method: 'POST',
+                success: function(data) {
+                    // console.log(data);
+                    $('.container-fluid').html(data);
+                }
+            })
+        }).fail(function(err) {
+            console.error(err.statusText);
+        });
+    }else if(source == 'news.bbc.co.uk' || source == 'businessinsider.com' || source == 'engadget.com'
+	|| source == 'thenextweb.com' || source == 'usatoday.com' || source == 'techcrunch.com'
+	|| source == 'timesofindia.indiatimes' || source == 'express.pk'){
+		var params = {
+            "query": "{\"$query\":{\"$and\":[{\"categoryUri\":\"dmoz/"+category+"\"},{\"sourceUri\":\"" +source + "\"}]}}",
+            "dataType": [
+                "news"
+            ],
+            "resultType": "articles",
+            "articlesSortBy": "date",
+            "articlesCount": 10,
+            "articleBodyLen": -1,
+            "apiKey": "0cd53df4-fdf8-4132-a211-6c646d60ba85"
+        };
+        $.ajax({
+            url: "https://newsapi.ai/api/v1/article/getArticles",
+            crossDomain: true,
+            data: params,
+            method: 'GET',
+        }).done(function(result) {
+            // console.log(result);
+            $.ajax({
+                url: 'ajax_calls.php',
+                data: result,
+                method: 'POST',
+                success: function(data) {
+                    // console.log(data);
+                    $('.container-fluid').html(data);
+                }
+            })
+        }).fail(function(err) {
+            console.error(err.statusText);
+        });
+	}else{
+        var params = {
+            "query": "{\"$query\":{\"$and\":[{\"locationUri\":\"http://en.wikipedia.org/wiki/Pakistan\"},{\"categoryUri\":\"dmoz/"+category+"\"}]}}",
             "dataType": [
                 "news"
             ],

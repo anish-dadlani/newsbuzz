@@ -1,0 +1,18 @@
+INSERT INTO `tblcategory` (`id`, `CategoryName`, `Description`, `PostingDate`, `UpdationDate`, `Is_Active`) VALUES
+(1, 'Arts', 'Arts', '2021-05-29 11:51:51', NULL, 1),
+(2, 'Business', 'Business', '2021-05-29 11:52:18', NULL, 1),
+(3, 'Computers', 'Computers', '2021-05-29 11:52:50', NULL, 1),
+(4, 'Games', 'Games', '2021-05-29 11:53:11', NULL, 1),
+(5, 'Health', 'Health', '2021-05-29 11:53:21', NULL, 1),
+(6, 'Home', 'Home', '2021-05-29 11:53:33', NULL, 1),
+(7, 'News', 'News', '2021-05-29 11:53:48', NULL, 1),
+(8, 'Recreation', 'Recreation', '2021-05-29 11:53:58', NULL, 1),
+(9, 'Reference', 'Reference', '2021-05-29 11:54:14', NULL, 1),
+(10, 'Regional', 'Regional', '2021-05-29 11:54:31', NULL, 1),
+(11, 'Science', 'Science', '2021-05-29 11:54:45', NULL, 1),
+(12, 'Shopping', 'Shopping', '2021-05-29 11:55:05', NULL, 1),
+(13, 'Society', 'Society', '2021-05-29 11:55:19', NULL, 1),
+(14, 'Sports', 'Sports', '2021-05-29 11:55:32', NULL, 1),
+(15, 'Entertainment', 'Entertainment', '2021-05-29 12:39:20', NULL, 1),
+(16, 'General', 'General', '2021-05-29 12:40:14', NULL, 1),
+(17, 'Technology', 'Technology', '2021-05-29 12:40:44', NULL, 1);
